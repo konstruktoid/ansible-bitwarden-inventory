@@ -128,7 +128,7 @@ class AnsibleBitwardenInventory:
                 sys.exit(1)
 
             if not subprocess.check_output(
-                [self.bitwarden_cmd, "list", "items"], shell=False
+                [self.bitwarden_cmd, "list", "items"], shell=False, check=True
             ):
                 sys.exit(1)
 
