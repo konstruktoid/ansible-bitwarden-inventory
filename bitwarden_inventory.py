@@ -127,9 +127,7 @@ class AnsibleBitwardenInventory:
                 print("bw doesn't seem to be installed. Exiting.")
                 sys.exit(1)
 
-            if not subprocess.check_output(
-                [self.bitwarden_cmd, "list", "items"], shell=False
-            ):  # nosec B603,S603
+            if not subprocess.check_output([self.bitwarden_cmd, "list", "items"], shell=False):  # nosec B603,S603
                 sys.exit(1)
 
         except Exception as exception_string:
@@ -139,9 +137,7 @@ class AnsibleBitwardenInventory:
     def list_bitwarden_vault(self):
         """Test the bw ls function."""
         try:
-            subprocess.run(
-                [self.bitwarden_cmd, "list", "items"], shell=False, check=True
-            )
+            subprocess.run([self.bitwarden_cmd, "list", "items"], shell=False, check=True) # nosec B603,S603
 
         except Exception as exception_string:
             print("Exception: ", str(exception_string), file=sys.stderr)
