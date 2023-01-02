@@ -4,7 +4,7 @@
 """Populate a Ansible inventory with information from Bitwarden."""
 import os
 import shutil
-import subprocess
+import subprocess  # nosec B404,S404
 import sys
 import argparse
 from urllib.parse import urlparse
@@ -27,7 +27,7 @@ EXAMPLES = """
 ---
 bitwarden_hosts:
   test-server-01: "1c7adc62-471d-494f-bf0d-af7e00f99c64"
-  test-server-02: "test-server-02"
+  test-server-02:
   webserver: "test-server-01"
 ...
 """
@@ -128,7 +128,7 @@ class AnsibleBitwardenInventory:
                 sys.exit(1)
 
             if not subprocess.check_output(
-                [self.bitwarden_cmd, "list", "items"], shell=False
+                [self.bitwarden_cmd, "list", "items"], shell=False, check=True
             ):
                 sys.exit(1)
 

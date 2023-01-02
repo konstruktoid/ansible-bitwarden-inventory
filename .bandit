@@ -1,0 +1,5 @@
+[bandit]
+skips = B603
+exclude =
+    .git,
+    __pycache__
