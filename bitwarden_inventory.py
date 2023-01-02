@@ -128,8 +128,8 @@ class AnsibleBitwardenInventory:
                 sys.exit(1)
 
             if not subprocess.check_output(
-                [self.bitwarden_cmd, "list", "items"], shell=False  # nosec B603,S603
-            ):
+                [self.bitwarden_cmd, "list", "items"], shell=False
+            ):  # nosec B603,S603
                 sys.exit(1)
 
         except Exception as exception_string:
