@@ -1,0 +1,6 @@
+---
+bitwarden_hosts:
+  test-server-01: "1c7adc62-471d-494f-bf0d-af7e00f99c64"
+  test-server-02:
+  webserver: "test-server-01"
+...
