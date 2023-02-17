@@ -9,8 +9,15 @@ on:
   schedule:
     - cron: '0 10 * * 5'
 
+permissions:
+  contents: read
+
 jobs:
   analyse:
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
     name: Analyse
     runs-on: ubuntu-latest
 
