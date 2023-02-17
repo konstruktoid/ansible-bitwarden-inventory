@@ -1,7 +1,11 @@
 on: [push, pull_request]
-name: Konstruktoid Python linting
+name: Python linting
+
+permissions:
+  contents: read
+
 jobs:
-  konstruktoidPythonlinting:
+  PythonLinting:
     name: Python linting
     runs-on: ubuntu-latest
     steps:
