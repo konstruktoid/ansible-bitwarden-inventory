@@ -9,6 +9,6 @@ jobs:
     name: Python linting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # master
+      - uses: actions/checkout@7b187184d12a8f064f797aeb51e4873c109637c7 # master
       - name: Konstruktoid Python linting
         uses: konstruktoid/action-pylint@04675c48fca2151c872ec91ee690eaab65fc86ce # master
