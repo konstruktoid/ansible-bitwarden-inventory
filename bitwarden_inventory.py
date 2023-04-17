@@ -1,16 +1,14 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # Licensed under the Apache License, Version 2.0
 """Populate a Ansible inventory with information from Bitwarden."""
+import argparse
 import os
 import shutil
-import subprocess  # nosec B404,S404
+import subprocess
 import sys
-import argparse
 from urllib.parse import urlparse
-import yaml
 
-__metaclass__ = type
+import yaml
 
 DOCUMENTATION = """
     name: bitwarden_inventory
@@ -62,7 +60,8 @@ class AnsibleBitwardenInventory:
                 sys.exit(1)
             else:
                 with open(
-                    "./bitwarden_inventory.yml", "r", encoding="utf-8"
+                    "./bitwarden_inventory.yml",
+                    encoding="utf-8",
                 ) as inventory_file:
                     self.inventory = yaml.safe_load(inventory_file)
 
@@ -74,7 +73,7 @@ class AnsibleBitwardenInventory:
             for inventory in self.inventory.values():
                 for name, identifier in inventory.items():
                     if not identifier:
-                        identifier = name
+                        identifier = name  # noqa: PLW2901
 
                     host_bw_json = json.loads(
                         subprocess.run(
@@ -83,13 +82,13 @@ class AnsibleBitwardenInventory:
                             check=True,
                             text=True,
                             capture_output=True,
-                        ).stdout
+                        ).stdout,
                     )
 
                     self.inventory_content["bitwarden_hosts"].append(name)
                     self.inventory_content["_meta"]["hostvars"][name] = {}
                     ansible_host = urlparse(
-                        host_bw_json["login"]["uris"][0]["uri"]
+                        host_bw_json["login"]["uris"][0]["uri"],
                     ).netloc
                     ansible_user = host_bw_json["login"]["username"]
                     ansible_password = host_bw_json["login"]["password"]
@@ -128,11 +127,13 @@ class AnsibleBitwardenInventory:
                 sys.exit(1)
 
             if not subprocess.check_output(
-                [self.bitwarden_cmd, "list", "items"], shell=False, check=True
+                [self.bitwarden_cmd, "list", "items"],
+                shell=False,
+                check=True,
             ):
                 sys.exit(1)
 
-        except Exception as exception_string:
+        except Exception as exception_string:  # noqa: BLE001
             print("Exception: ", str(exception_string), file=sys.stderr)
             sys.exit(1)
 
@@ -140,10 +141,12 @@ class AnsibleBitwardenInventory:
         """Test the bw ls function."""
         try:
             subprocess.run(
-                [self.bitwarden_cmd, "list", "items"], shell=False, check=True
+                [self.bitwarden_cmd, "list", "items"],
+                shell=False,
+                check=True,
             )
 
-        except Exception as exception_string:
+        except Exception as exception_string:  # noqa: BLE001
             print("Exception: ", str(exception_string), file=sys.stderr)
             sys.exit(1)
 
