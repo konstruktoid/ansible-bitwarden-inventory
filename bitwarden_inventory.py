@@ -78,7 +78,7 @@ class AnsibleBitwardenInventory:
                     host_bw_json = json.loads(
                         subprocess.run(
                             [self.bitwarden_cmd, "get", "item", identifier],
-                            shell=False,
+                            shell=False,  # noqa=S603
                             check=True,
                             text=True,
                             capture_output=True,
@@ -128,7 +128,7 @@ class AnsibleBitwardenInventory:
 
             if not subprocess.check_output(
                 [self.bitwarden_cmd, "list", "items"],
-                shell=False,
+                shell=False,  # noqa=S603
                 check=True,
             ):
                 sys.exit(1)
@@ -142,7 +142,7 @@ class AnsibleBitwardenInventory:
         try:
             subprocess.run(
                 [self.bitwarden_cmd, "list", "items"],
-                shell=False,
+                shell=False,  # noqa=S603
                 check=True,
             )
 
