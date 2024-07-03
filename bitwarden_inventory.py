@@ -76,9 +76,9 @@ class AnsibleBitwardenInventory:
                         identifier = name  # noqa: PLW2901
 
                     host_bw_json = json.loads(
-                        subprocess.run(
+                        subprocess.run(  # noqa: S603
                             [self.bitwarden_cmd, "get", "item", identifier],
-                            shell=False,  # noqa: S603
+                            shell=False,
                             check=True,
                             text=True,
                             capture_output=True,
@@ -126,9 +126,9 @@ class AnsibleBitwardenInventory:
                 print("bw doesn't seem to be installed. Exiting.")
                 sys.exit(1)
 
-            if not subprocess.check_output(
+            if not subprocess.check_output(  # noqa: S603
                 [self.bitwarden_cmd, "list", "items"],
-                shell=False,  # noqa: S603
+                shell=False,
                 check=True,
             ):
                 sys.exit(1)
@@ -140,9 +140,9 @@ class AnsibleBitwardenInventory:
     def list_bitwarden_vault(self):
         """Test the bw ls function."""
         try:
-            subprocess.run(
+            subprocess.run(  # noqa: S603
                 [self.bitwarden_cmd, "list", "items"],
-                shell=False,  # noqa: S603
+                shell=False,
                 check=True,
             )
 
@@ -152,7 +152,6 @@ class AnsibleBitwardenInventory:
 
     def read_cli_args(self):
         """Command line arguments and help information."""
-
         parser = argparse.ArgumentParser(
             description="Populate a Ansible inventory with information from Bitwarden.",
             epilog="version: " + __version__,
