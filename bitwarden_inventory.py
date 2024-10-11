@@ -1,11 +1,11 @@
 #!/usr/bin/env python
-# Licensed under the Apache License, Version 2.0
+# ruff: noqa: T201
 """Populate a Ansible inventory with information from Bitwarden."""
 import argparse
-import os
 import shutil
 import subprocess
 import sys
+from pathlib import Path
 from urllib.parse import urlparse
 
 import yaml
@@ -41,7 +41,8 @@ __version__ = "0.0.1"
 class AnsibleBitwardenInventory:
     """The AnsibleBitwardenInventory class."""
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Initialize the class."""
         self.bitwarden_cmd = shutil.which("bw")
         self.inventory = {}
         self.inventory_content = {}
@@ -50,16 +51,17 @@ class AnsibleBitwardenInventory:
         self.ensure_bitwarden()
         self.generate_inventory()
 
-    def generate_inventory(self):
+    def generate_inventory(self) -> None:
         """Generate the inventory."""
         try:
-            self.configuration_file = os.getcwd() + "/bitwarden_inventory.yml"
+            cwd = Path.cwd()
+            self.configuration_file = f"{cwd}/bitwarden_inventory.yml"
 
-            if not os.path.isfile(self.configuration_file):
+            if not Path(self.configuration_file).is_file():
                 print(self.configuration_file + " can't be found.")
                 sys.exit(1)
             else:
-                with open(
+                with Path.open(
                     "./bitwarden_inventory.yml",
                     encoding="utf-8",
                 ) as inventory_file:
@@ -79,9 +81,9 @@ class AnsibleBitwardenInventory:
                         subprocess.run(  # noqa: S603
                             [self.bitwarden_cmd, "get", "item", identifier],
                             shell=False,
-                            check=True,
                             text=True,
                             capture_output=True,
+                            check=False,
                         ).stdout,
                     )
 
@@ -119,7 +121,7 @@ class AnsibleBitwardenInventory:
         else:
             print(json.dumps(self.generated_inventory, sort_keys=True))
 
-    def ensure_bitwarden(self):
+    def ensure_bitwarden(self) -> None:
         """Ensure Bitwarden is installed and the user is logged in."""
         try:
             if not self.bitwarden_cmd:
@@ -129,7 +131,6 @@ class AnsibleBitwardenInventory:
             if not subprocess.check_output(  # noqa: S603
                 [self.bitwarden_cmd, "list", "items"],
                 shell=False,
-                check=True,
             ):
                 sys.exit(1)
 
@@ -137,20 +138,20 @@ class AnsibleBitwardenInventory:
             print("Exception: ", str(exception_string), file=sys.stderr)
             sys.exit(1)
 
-    def list_bitwarden_vault(self):
+    def list_bitwarden_vault(self) -> None:
         """Test the bw ls function."""
         try:
             subprocess.run(  # noqa: S603
                 [self.bitwarden_cmd, "list", "items"],
                 shell=False,
-                check=True,
+                check=False,
             )
 
         except Exception as exception_string:  # noqa: BLE001
             print("Exception: ", str(exception_string), file=sys.stderr)
             sys.exit(1)
 
-    def read_cli_args(self):
+    def read_cli_args(self) -> None:
         """Command line arguments and help information."""
         parser = argparse.ArgumentParser(
             description="Populate a Ansible inventory with information from Bitwarden.",
